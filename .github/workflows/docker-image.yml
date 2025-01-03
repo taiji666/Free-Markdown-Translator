@@ -36,16 +36,16 @@ jobs:
           push: false            # 设置不推送镜像
           outputs: type=docker    # 设置输出为 Docker 镜像文件而非推送
           tags: |
-                taiji/MD:${{ github.ref_name }}
-                taiji/MD:latest
+                ${{ github.repository_owner }}/mdt:${{ github.ref_name }}
+                ${{ github.repository_owner }}/mdt:latest
       # 导出 Docker 镜像为 tar 文件
       - name: Save Docker image to file
-        run: docker build . --file Dockerfile --tag MD:$(date +%s)
+        run: docker build . --file Dockerfile --tag mdt:$(date +%s)
 
 
       # 上传镜像 tar 文件作为 GitHub Actions 的工件
       - name: Upload Docker image artifact
         uses: actions/upload-artifact@v3
         with:
-          name: MD
-          path:  MD.tar
+          name: mdt
+          path:  mdt.tar
