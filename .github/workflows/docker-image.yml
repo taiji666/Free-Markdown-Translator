@@ -36,8 +36,8 @@ jobs:
           push: false            # 设置不推送镜像
           outputs: type=docker    # 设置输出为 Docker 镜像文件而非推送
           tags: |
-                ${{ github.repository_owner }}/MD:${{ github.ref_name }}
-                ${{ github.repository_owner }}/MD:latest
+                taiji/MD:${{ github.ref_name }}
+                taiji/MD:latest
       # 导出 Docker 镜像为 tar 文件
       - name: Save Docker image to file
         run: docker build . --file Dockerfile --tag MD:$(date +%s)
