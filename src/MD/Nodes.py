@@ -1,5 +1,5 @@
 import logging
-from Utils import Patterns
+from .Utils import Patterns
 
 
 class Node:

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown文件翻译</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Markdown文件翻译</h1>
+            <p class="subtitle">上传文件进行处理</p>
+        </header>
+
+        <main>
+            <form id="uploadForm" class="upload-section">
+                <div class="upload-area" id="dropZone">
+                    <input type="file" id="fileInput" name="file" accept=".md" hidden>
+                    <div class="upload-content">
+                        <div class="upload-icon">📄</div>
+                        <div class="upload-text">
+                            <span>拖放文件到这里或</span>
+                            <label for="fileInput" class="upload-button">选择文件</label>
+                        </div>
+                        <div class="file-requirements">支持的文件格式: .md</div>
+                    </div>
+                </div>
+
+                <div id="fileInfo" class="file-info hidden">
+                    <div class="file-preview">
+                        <div class="file-icon">📄</div>
+                        <div class="file-details">
+                            <div class="filename" id="fileName">未选择文件</div>
+                            <div class="file-meta">
+                                <span id="fileSize">0 KB</span>
+                                <span class="dot">•</span>
+                                <span id="fileType">MD</span>
+                            </div>
+                        </div>
+                        <button type="button" class="remove-file" id="removeFile" title="移除文件">×</button>
+                    </div>
+                </div>
+
+                <div id="uploadProgress" class="upload-progress hidden">
+                    <div class="progress-info">
+                        <span class="progress-label">上传进度</span>
+                        <span class="progress-percentage" id="progressText">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressBar"></div>
+                    </div>
+                </div>
+
+                <button type="submit" id="submitButton" class="submit-button" disabled>
+                    <span class="button-text">开始处理</span>
+                    <div class="button-loader hidden"></div>
+                </button>
+            </form>
+
+            <div class="history-section">
+                <h2>处理历史</h2>
+                <div id="historyList" class="history-list"></div>
+            </div>
+        </main>
+
+        <div id="toast" class="toast hidden">
+            <div class="toast-content">
+                <span id="toastMessage"></span>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', path='/script.js') }}"></script>
+</body>
+</html>

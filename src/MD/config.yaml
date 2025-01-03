@@ -7,12 +7,10 @@ src_language: auto
 # 目标语言
 target_langs:
   - zh
-  - en
-  - ja
-  - ru
 
-# 使用的翻译引擎，支持google, bing, alibaba, sogou, youdao, tencent, baidu等翻译引擎
-translator: google
+
+# 使用的翻译引擎，支持google, bing, alibaba, sogou, youdao, tencent, baidu,microsoft等翻译引擎
+translator: microsoft
 
 # 文件目录下需要翻译的文档的名称
 src_filenames:
@@ -21,7 +19,7 @@ src_filenames:
   - '_index'
 
 # 翻译时使用的最大线程数，不超过30，小于等于0表示使用默认线程数
-threads: -1
+threads: 5
 
 # 配置代理
 proxy:

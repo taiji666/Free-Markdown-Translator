@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from pathlib import Path
 import logging
 from colorlog import ColoredFormatter
-
+import os
 # 创建一个自定义的日志处理器来设置日志颜色
 formatter = ColoredFormatter(
     "%(blue)s%(asctime)s %(log_color)s[%(levelname)-7s]%(reset)s %(blue)s[%(threadName)-12s] %(log_color)s%(message)s",
@@ -28,7 +28,7 @@ logger.addHandler(console_handler)
 # 支持的翻译引擎
 SUPPORTED_TRANSLATORS = {"google", "baidu", "bing", "sogou", "youdao", 'niutrans', 'mymemory', 'alibaba', 'tencent',
                          'modernmt', 'volcengine', 'iciba', 'iflytek', 'lingvanex', 'yandex', 'itranslate', 'systran',
-                         'argos', 'apertium', 'reverso', 'cloudtranslation', 'qqtransmart', 'translateCom',
+                         'argos', 'apertium', 'reverso', 'cloudtranslation', 'qqtransmart', 'translateCom','microsoft',
                          'tilde', 'qqfanyi', 'translateme'}
 
 
@@ -110,5 +110,8 @@ def get_config(config_path: str) -> Configration:
         logging.warning(f"Failed to load config file: {config_file}: {e}")
         return get_default_config()
 
-
-config = get_config("config.yaml")
+# 获取当前文件所在的目录
+current_dir = os.path.dirname(os.path.abspath(__file__))
+# 构建配置文件的绝对路径
+file_path = os.path.join(current_dir, "config.yaml")
+config = get_config(file_path)

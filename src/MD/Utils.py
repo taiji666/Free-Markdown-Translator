@@ -8,8 +8,11 @@ from dataclasses import dataclass
 from pathlib import Path
 
 # 指定要跳过翻译的字符的正则表达式，分别为加粗符号、在``中的非中文字符，`，用于过滤表格的符号，换行符
+# skipped_regexs = [r"\*\*。?", r'#+', r'`[^\u4E00-\u9FFF]*?`', r'`', r'"[^\u4E00-\u9FFF]*?"', r'\|', r'^ *-+',
+#                   r'^[\.,\?!;。，？！；、]$', '\n']
 skipped_regexs = [r"\*\*。?", r'#+', r'`[^\u4E00-\u9FFF]*?`', r'`', r'"[^\u4E00-\u9FFF]*?"', r'\|', r'^ *-+',
-                  r'^[\.,\?!;。，？！；、]$', '\n']
+                   r'^[\.,\?!;。，？！；、]$', '\n']
+
 # 非紧凑型语言中需要添加分隔的正则表达式
 expands_regexs = [r'`[^`]+?`', r'".*?"', r'\*\*.*?\*\*', r"\[!\[.*?]\(.*?\)]\(.*?\)|!?\[.*?]\(.*?\)"]
 pattern = "({})".format("|".join(skipped_regexs))
@@ -184,8 +187,10 @@ class Pbar:
 
 class SymbolWidthUtil:
     __half_full_diff = 0xFEE0
-    __full_width_symbols = '！＂＃＄％＆＇（）＊＋，－。．／：；＜＝＞？＠［＼］＾＿｀｛｜｝～‘’”“【】《》￥、'
-    __half_width_symbols = '!"#$%&\'()*+,-../:;<=>?@[\]^_`{|}~\'\'""[]<>$,'
+    __full_width_symbols = '！＂＃％＆＇（）＊＋，－。．／：；＜＝＞？＠［＼］＾＿｀｛｜｝～‘’”“【】《》￥、'
+    # __half_width_symbols = '!"#%&\'()*+,-../:;<=>?@[\]^_`{|}~\'\'""[]<>$,'
+    __half_width_symbols = '!"#%&\'()*+,-../:;<=>?@[\\]^_`{|}~\'\'""[]<>$,'
+
     __full_half_symbol_map = {full: half for full, half in zip(__full_width_symbols, __half_width_symbols)}
     __half_full_symbol_map = {half: full for full, half in zip(__full_width_symbols, __half_width_symbols)}
 
@@ -216,3 +221,6 @@ class SymbolWidthUtil:
         """
         chars = [SymbolWidthUtil.__full_to_half_symbol(char) for char in text]
         return ''.join(chars)
+
+
+RawData(nodes=['<Nodes.SolidNode object at 0x000001B4CD471150>'], chunks=[({1: '\n'}, {0: 'Lax pairs are one of the most important features of integrable system.In this work,we propose theLax pairs informed neural networks(LPNNs)tailored for the in te grable systems with Lax pairs by designing novel network architectures andloss functions,comprising LP NN-v1and LPNN-v2.The most noteworthy advantage of LPNN-v1is that it can transform the solving of complex in te grable systems into the solving of relatively simple Lax pairs,anditnot only efficiently solves data-driven localized wave solutions,but also obtains spectral parameter and corresponding spectral function in spectral problems of the in te grable systems.On thebasis of LPNN-vl，we additionally incorporate the compatibility condition/zero curvature equation of Lax pairs in LP NN-v2,its major advantage is the ability to solve and explore high-accuracy data driven localized wave solutions and associated spectral problems for in te grable systems with Lax pairs. The numerical experiments focus on studying abundant localized wave solutions for very important and representative in te grable systems with Lax pairs,including the sol it on solution of the Korteweg-de Vries (KdV) equation and modified KdV equation,rogue wave solution of the nonlinear Schrod in ger equation,kink solution of thesine-Gordon equation,non-smooth peak on solution of the Ca massa-Holm equation and pulse solution of the short pulse equation, as well as the line-soliton solution of Kadomtsev-Pet vi ash vili equation and lump solution of high-dimensional KdV equation. The innovation of this work lies in the pioneering integration of Lax pairs informed of in te grable systems into deep neural networks,there by presenting afresh methodology and pathway for investigating data-driven localized wave solutions and spectral problems.'}, 2)], empty_line_position=[], chars_count=1786)
