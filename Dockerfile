@@ -1,4 +1,3 @@
-
 # 1. 使用官方 Python 镜像
 FROM python:3.13-slim
 
@@ -10,9 +9,9 @@ COPY src/ /app/
 
 # 如果有需要安装的依赖，确保在 src 目录里包含 requirements.txt
 # 如果没有就注释掉下面这行
-RUN pip install --no-cache-dir -r requirements.txt \
-&& pip install  uvicorn\
-   apt-get clean && \
+RUN pip install --no-cache-dir -r requirements.txt\
+&& pip install  uvicorn
+RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     rm -rf /root/.cache/pip/*
 # 4. 使用 uvicorn 启动应用
