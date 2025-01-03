@@ -8,12 +8,13 @@ from pathlib import Path
 from datetime import datetime
 from MD.MDUtils import MDTranslate,MDAnalysis
 app = FastAPI(debug=True)
-
+# 获取当前文件所在的目录
+current_dir = os.path.dirname(os.path.abspath(__file__))
 # 挂载静态文件目录
-app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/static", StaticFiles(directory=os.path.join(current_dir,"static")), name="static")
 
 # 设置模板目录
-templates = Jinja2Templates(directory="templates")
+templates = Jinja2Templates(directory=os.path.join(current_dir,"templates"))
 
 # 创建上传文件保存的目录
 UPLOAD_DIR = Path("uploads")

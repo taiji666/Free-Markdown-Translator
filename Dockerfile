@@ -1,24 +1,20 @@
-# For more information, please refer to https://aka.ms/vscode-docker-python
-# 构建阶段
-FROM python:3.13-slim as builder
 
-EXPOSE 8000
+# 1. 使用官方 Python 镜像
+FROM python:3.13-slim
 
-# Keeps Python from generating .pyc files in the container
-ENV PYTHONDONTWRITEBYTECODE=1
+# 2. 设置工作目录
+WORKDIR /app
 
-# Turns off buffering for easier container logging
-ENV PYTHONUNBUFFERED=1
+# 3. 复制 src 目录的所有内容到容器 /app 路径下
+COPY src/ /app/
 
-# Install pip requirements
-COPY requirements.txt .
-RUN python -m pip install --no-cache-dir -r requirements.txt \
-&& pip install  uvicorn
-RUN apt-get clean && \
+# 如果有需要安装的依赖，确保在 src 目录里包含 requirements.txt
+# 如果没有就注释掉下面这行
+RUN pip install --no-cache-dir -r requirements.txt \
+&& pip install  uvicorn\
+   apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     rm -rf /root/.cache/pip/*
-WORKDIR /app
-COPY /src /app
-
-# During debugging, this entry point will be overridden. For more information, please refer to https://aka.ms/vscode-docker-python-debug
-CMD ["unicorn", "--host", "0.0.0.0", "-port", "8000", "main:app"]
+# 4. 使用 uvicorn 启动应用
+# 如果你想使用 reload 方便开发，可以加上 --reload
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
