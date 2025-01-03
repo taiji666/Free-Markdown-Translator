@@ -1,0 +1,51 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+  release:
+    types: [created] # 表示在创建新的 Release 时触发
+  workflow_dispatch:  # 手动触发工作流
+
+jobs:
+  build_docker:
+    name: Build docker
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Inject slug/short variables
+        uses: rlespinasse/github-slug-action@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: linux/amd64 # 设置支持的目标平台
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Build Docker Image (linux/amd64)
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          platforms: linux/amd64 # 指定构建的目标平台
+          push: false            # 设置不推送镜像
+          outputs: type=docker    # 设置输出为 Docker 镜像文件而非推送
+          tags: |
+                ${{ github.repository_owner }}/MD:${{ github.ref_name }}
+                ${{ github.repository_owner }}/MD:latest
+      # 导出 Docker 镜像为 tar 文件
+      - name: Save Docker image to file
+        run: docker build . --file Dockerfile --tag MD:$(date +%s)
+
+
+      # 上传镜像 tar 文件作为 GitHub Actions 的工件
+      - name: Upload Docker image artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: MD
+          path:  MD.tar
